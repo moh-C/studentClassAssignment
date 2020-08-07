@@ -1,0 +1,13 @@
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\bin\Debug\netcoreapp3.1\studentClassAssignment.exe
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\bin\Debug\netcoreapp3.1\studentClassAssignment.deps.json
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\bin\Debug\netcoreapp3.1\studentClassAssignment.runtimeconfig.json
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\bin\Debug\netcoreapp3.1\studentClassAssignment.runtimeconfig.dev.json
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\bin\Debug\netcoreapp3.1\studentClassAssignment.dll
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\bin\Debug\netcoreapp3.1\studentClassAssignment.pdb
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\obj\Debug\netcoreapp3.1\studentClassAssignment.csprojAssemblyReference.cache
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\obj\Debug\netcoreapp3.1\studentClassAssignment.AssemblyInfoInputs.cache
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\obj\Debug\netcoreapp3.1\studentClassAssignment.AssemblyInfo.cs
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\obj\Debug\netcoreapp3.1\studentClassAssignment.csproj.CoreCompileInputs.cache
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\obj\Debug\netcoreapp3.1\studentClassAssignment.dll
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\obj\Debug\netcoreapp3.1\studentClassAssignment.pdb
+C:\Users\moham\Desktop\GitHub\studentClassAssignment\obj\Debug\netcoreapp3.1\studentClassAssignment.genruntimeconfig.cache
