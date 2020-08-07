@@ -10,6 +10,8 @@ namespace myapp
             var customer = new Customer(id: 12, name: "Mammad");
             var order = new Order();
             customer.Orders.Add(order);
+            System.Console.WriteLine(customer.ID);
+            System.Console.WriteLine(customer.Name);
         }
     }
 }
