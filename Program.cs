@@ -7,8 +7,9 @@ namespace myapp
     {
         static void Main(string[] args)
         {
-            var customer = new Customer();
-            System.Console.WriteLine("Something");
+            var customer = new Customer(id: 12, name: "Mammad");
+            var order = new Order();
+            customer.Orders.Add(order);
         }
     }
 }
