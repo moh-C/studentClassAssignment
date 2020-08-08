@@ -25,7 +25,7 @@ class Student
     }
 
     private int IDGenerator;
-    public int StudentID { get; set; }
+    public int StudentID { get; private set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Major { get; set; }

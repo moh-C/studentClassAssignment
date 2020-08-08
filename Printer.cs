@@ -61,7 +61,7 @@ namespace myapp
             }
         }
 
-        public static void MainStudentHandler(List<Student> students, string head)
+        public static void MainStudentHandler(List<Student> students, string head = "\n\tHere is the students' Info\n\n")
         {
             Console.Clear();
             if(students.Count != 0)
@@ -230,33 +230,50 @@ namespace myapp
             Console.WriteLine("\n\n");
             
             Options.Clear();
-            Options.Add('1', "Display all students");
-            Options.Add('2', "Display all students sorted by first name");
-            Options.Add('3', "Display all students sorted by last name");
-            Options.Add('4', "Display all students sorted by GPA");
-            Options.Add('M', "Main Menu");
+            Console.WriteLine("Please enter the ID of the student you want to edit: ");
+            string query = Convert.ToString(Console.ReadLine());
+            Student student = Student.FindStudent(Students, query, "ID")[0];
+
+            
+            Options.Clear();
+            Options.Add('1', "Edit First Name");
+            Options.Add('2', "Edit Last Name");
+            Options.Add('3', "Major");
+            Options.Add('4', "Phone Number");
+            Options.Add('5', "GPA");
+            Options.Add('6', "Birthdate");
+            Options.Add('A', "Abort");
             Options.Add('Q', "Quit");
             OptionsPrinter();
 
             choice = IOption();
-            string head = "\n\tHere is the students' Info\n\n";
             switch (choice)
             {
                 case '1':
-                    head = "\n\tHere is the students' list: \n\n";
-                    sortedStudents = Students;
+                    Console.WriteLine("Enter the first name: ");
+                    student.FirstName = Convert.ToString(Console.ReadLine());
                     break;
                 case '2':
-                    sortedStudents = Student.Sort(Students, 'F');
-                    head = "\n\tHere is the students' list sorted by their first names: \n\n";
+                    Console.WriteLine("Enter the last name: ");
+                    student.LastName = Convert.ToString(Console.ReadLine());
                     break;
                 case '3':
-                    sortedStudents = Student.Sort(Students, 'L');
-                    head = "\n\tHere is the students' list sorted by their last names: \n\n";
+                    Console.WriteLine("Enter the major: ");
+                    student.Major = Convert.ToString(Console.ReadLine());
                     break;
                 case '4':
-                    head = "\n\tHere is the students' list sorted by their GPA: \n\n";
-                    sortedStudents = Student.Sort(Students, 'G');
+                    Console.WriteLine("Enter the Phone No.: ");
+                    student.Phone = Convert.ToString(Console.ReadLine());
+                    break;
+                case '5':
+                    Console.WriteLine("Enter the GPA: ");
+                    string gpa = Convert.ToString(Console.ReadLine());
+                    student.GPA = float.Parse(gpa);
+                    break;
+                case '6':
+                    Console.WriteLine("Enter the Birthdate: ");
+                    string date = Convert.ToString(Console.ReadLine());
+                    student.DateOfBirth = DateTime.Parse(date);
                     break;
                 case 'M':
                     MainProcessor();
@@ -265,7 +282,6 @@ namespace myapp
                     Environment.Exit(0);
                     break;
             }
-            MainStudentHandler(sortedStudents, head);
         }
     }
 }
