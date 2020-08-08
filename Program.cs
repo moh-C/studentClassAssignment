@@ -7,12 +7,19 @@ namespace myapp
     {
         static void Main(string[] args)
         {
-            var calculator = new Calculator();
-            int firstOne = calculator.Add(1,2,3);
-            int secondOne = calculator.Add(new int[] {1,20,3});
-            System.Console.WriteLine("{0}, {1}", firstOne, secondOne);
+            int number;
+            string toBeConverted = "abcdef";
+            bool res = int.TryParse(toBeConverted, out number);
+            System.Console.WriteLine(res);
 
-            
+            static void useCalc()
+            {
+                var calculator = new Calculator();
+                int firstOne = calculator.Add(1,2,3);
+                int secondOne = calculator.Add(new int[] {1,20,3});
+                System.Console.WriteLine("{0}, {1}", firstOne, secondOne);
+            }
+
             static void usePoint()
             {
                 try
