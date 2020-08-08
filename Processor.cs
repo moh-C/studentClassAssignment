@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace myapp
 {
-    class Printer
+    class Processor
     {
         private static string welcome;
         private static string format = "{0,-10} {1,-20} {2, -20} {3, -10} {4, -15} {5, -10} {6, -10}";
@@ -13,7 +13,7 @@ namespace myapp
         private static List<Student> sortedStudents = new List<Student>();
         private static Dictionary<char, string> Options = new Dictionary<char, string>();
 
-        public Printer()
+        public Processor()
         {
             Students = Student.load_data();
         }
@@ -79,7 +79,7 @@ namespace myapp
 
         private static char IOption()
         {
-            Console.WriteLine("\n\tPlease enter your choice");
+            Console.Write("\n\tPlease enter your choice: ");
             string Unprocessed = Console.ReadLine();
             if(Unprocessed.Length > 1)
             {
@@ -195,22 +195,22 @@ namespace myapp
             switch(choice)
             {
                 case '1':
-                    Console.WriteLine("Please enter ID of the student you want: ");
+                    Console.Write("Please enter ID of the student you want: ");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "ID");
                     break;
                 case '2':
-                    Console.WriteLine("Please enter the Major you are interested in: ");
+                    Console.Write("Please enter the Major you are interested in: ");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "Major");
                     break;
                 case '3':
-                    Console.WriteLine("Please enter the desired GPA");
+                    Console.Write("Please enter the desired GPA: ");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "GPA_H");
                     break;
                 case '4':
-                    Console.WriteLine("Please enter the desired GPA");
+                    Console.Write("Please enter the desired GPA: ");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "GPA_L");
                     break;
@@ -227,14 +227,65 @@ namespace myapp
         private static void edit()
         {
             Console.Clear();
+            Options.Clear();
             Console.WriteLine("\n\n");
             
-            Options.Clear();
-            Console.WriteLine("Please enter the ID of the student you want to edit: ");
-            string query = Convert.ToString(Console.ReadLine());
-            Student student = Student.FindStudent(Students, query, "ID")[0];
-
+            writeHeader();
+            foreach (var student in Students)
+            {
+                string header = "\t";
+                header += String.Format(format, $"{student.StudentID}", $"{student.FirstName}",
+                                                $"{student.LastName}", $"{student.Major}",
+                                                $"{student.Phone}", $"{student.GPA}", $"{student.DateOfBirth.ToShortDateString()}");
+                Console.WriteLine(header);    
+            }
             
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("\n\t-----------------------------------------------------");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.Write("\n\tPlease enter the ID of the student you want to edit: ");
+            string query = Convert.ToString(Console.ReadLine());
+            List<Student> foundStudents = Student.FindStudent(Students, query, "ID");
+            Student student_ = new Student();
+
+            if(foundStudents.Count == 1)
+            {
+                student_ = foundStudents[0];
+            }
+            else if(foundStudents.Count == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                System.Console.WriteLine("\n\tSorry student with that ID does not exist!");
+                Console.ForegroundColor = ConsoleColor.White;
+                Options.Add('R', "Retry");
+                Options.Add('Q', "Quit");
+                OptionsPrinter();
+                choice = IOption();
+                switch (choice)
+                {
+                    case 'R':
+                        edit();
+                        break;
+                    case 'Q':
+                        Environment.Exit(0);
+                        break;
+                }
+            }
+            editStudent(student_);
+        }
+        private static void editStudent(Student student)
+        {
+            Console.Clear();
+            Console.WriteLine("\n\tUntil now, Student's records are as follows: \n");
+            writeHeader();
+            string header = "\t";
+            header += String.Format(format, $"{student.StudentID}", $"{student.FirstName}",
+                                            $"{student.LastName}", $"{student.Major}",
+                                            $"{student.Phone}", $"{student.GPA}", $"{student.DateOfBirth.ToShortDateString()}");
+            Console.WriteLine(header);
+            Console.WriteLine("\n\n");
+
             Options.Clear();
             Options.Add('1', "Edit First Name");
             Options.Add('2', "Edit Last Name");
@@ -242,6 +293,7 @@ namespace myapp
             Options.Add('4', "Phone Number");
             Options.Add('5', "GPA");
             Options.Add('6', "Birthdate");
+            Options.Add('S', "Submit");
             Options.Add('A', "Abort");
             Options.Add('Q', "Quit");
             OptionsPrinter();
@@ -275,13 +327,19 @@ namespace myapp
                     string date = Convert.ToString(Console.ReadLine());
                     student.DateOfBirth = DateTime.Parse(date);
                     break;
-                case 'M':
+                case 'S':
+                    System.Console.WriteLine(Students.Count);
+                    System.Console.WriteLine("\n\n\n");
+                    Student.Submit_Save(Students, student);
+                    break;
+                case 'A':
                     MainProcessor();
                     break;
                 case 'Q':
                     Environment.Exit(0);
                     break;
             }
+            editStudent(student);
         }
     }
 }

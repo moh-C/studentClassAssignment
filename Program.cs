@@ -7,8 +7,8 @@ namespace myapp
     {
         static void Main(string[] args)
         {
-            var printer = new Printer();
-            Printer.MainProcessor();
+            var printer = new Processor();
+            Processor.MainProcessor();
         }
     }
 }

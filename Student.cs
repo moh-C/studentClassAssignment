@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 class Student
 {
@@ -56,6 +57,29 @@ class Student
             students.Add(newStudent);
         }
         return students;
+    }
+
+    public static void Submit_Save(List<Student> allOfStudents, Student editedStudent)
+    {
+        List<string> editedStudentList_ = new List<string>();
+
+        foreach (Student student_ in allOfStudents)
+        {
+            var student = new Student();
+            if(student_.StudentID == editedStudent.StudentID)
+                student = editedStudent;
+            else
+                student = student_;
+
+            editedStudentList_.Add(
+                String.Format("{0},{1},{2},{3}", student.StudentID, student.FirstName, student.LastName, student.Major) +
+                String.Format("{0},{1},{2}", student.Phone, student.GPA, student.DateOfBirth.ToShortDateString())
+            );
+        }
+        System.Console.WriteLine(editedStudentList_.Count);
+        System.Console.WriteLine(editedStudentList_);
+        Thread.Sleep(5000);
+        File.WriteAllLines("studentList.txt", editedStudentList_);
     }
 
     public static List<Student> Sort(List<Student> students, char sortBy)
