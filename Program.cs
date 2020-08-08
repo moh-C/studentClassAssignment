@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace myapp
 {
@@ -7,10 +8,12 @@ namespace myapp
     {
         static void Main(string[] args)
         {
-            var cookie = new HttpCookie();
-            cookie["name"] = "Mammad";
-            System.Console.WriteLine(cookie["name"]);
-            System.Console.WriteLine(cookie.name);
+            var student = new Student();
+            List<Student> students = Student.load_data();
+            System.Console.WriteLine(students.Count);
+            System.Console.WriteLine(students[0].DateOfBirth.ToShortDateString());
+            System.Console.WriteLine(students[2].DateOfBirth.ToShortDateString());
+
         }
     }
 }
