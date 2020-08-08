@@ -14,10 +14,11 @@ namespace myapp
             string format = "{0,-10} {1,-20} {2, -20} {3, -10} {4, -15} {5, -10} {6, -10}";
 
             string welcome = "\n\tHello!, welcome to my program. Choose one of the following options: ";
-            string options = "\n\n\t1. Display all students\n";
-            options += "\t2. Display all students sorted by first name\n";
-            options += "\t3. Display all students sorted by last name\n";
-            options += "\t4. Display all students sorted by GPA\n";
+            string options = "\n\n\t1. Display all students.\n";
+            options += "\t2. Display all students sorted by first name.\n";
+            options += "\t3. Display all students sorted by last name.\n";
+            options += "\t4. Display all students sorted by GPA.\n";
+            options += "\t5. Search for a student by their first name.\n";
             
             string starting_msg = welcome + options;
             Console.Write(starting_msg);
@@ -47,9 +48,15 @@ namespace myapp
                     sortedStudents = Student.Sort(Students, 'G');
                     break;
 
+                case "5":
+                    Convert.ToString(Console.ReadLine());
+                    
+                    break;
+
                 default:
                     break;
             }
+
             studentListPrinter(sortedStudents, head);
             
             void writeHeader()

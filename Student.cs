@@ -79,4 +79,28 @@ class Student
         
         return sortedStudents;
     }
+
+    public static List<Student> FindStudent(List<Student> students, string query, string option)
+    {
+        List<Student> foundStudents = new List<Student>();
+        switch (option)
+        {
+            case "ID":
+            foundStudents = students.FindAll( s => s.StudentID == int.Parse(query));
+            break;
+
+            case "Major":
+            foundStudents = students.FindAll( s => s.Major == query);
+            break;
+
+            case "GPA_H":
+            foundStudents = students.FindAll( s => s.GPA >= int.Parse(query));
+            break;
+
+            case "GPA_L":
+            foundStudents = students.FindAll( s => s.GPA <= int.Parse(query));
+            break;
+        }
+        return foundStudents;
+    }
 }
