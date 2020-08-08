@@ -110,12 +110,11 @@ namespace myapp
             Options.Add('1', "Displaying");
             Options.Add('2', "Searching");
             Options.Add('3', "Editing");
+            Options.Add('4', "Add new Student");
             Options.Add('Q', "Quit");
-
-            Console.WriteLine("Please enter your choice");
             OptionsPrinter();
-            choice = IOption();
 
+            choice = IOption();
             switch (choice)
             {
                 case '1':
@@ -128,6 +127,11 @@ namespace myapp
 
                 case '3':
                     edit();
+                    break;
+                case '4':
+                    System.Console.WriteLine(Student.IDGenerator);
+                    Student newStudent = new Student(Student.IDGenerator, DateTime.Now);
+                    addNew(newStudent);
                     break;
             }
         }
@@ -293,7 +297,7 @@ namespace myapp
             Options.Add('4', "Phone Number");
             Options.Add('5', "GPA");
             Options.Add('6', "Birthdate");
-            Options.Add('S', "Submit");
+            Options.Add('S', "Submit and return to Main Menu");
             Options.Add('A', "Abort");
             Options.Add('Q', "Quit");
             OptionsPrinter();
@@ -328,9 +332,77 @@ namespace myapp
                     student.DateOfBirth = DateTime.Parse(date);
                     break;
                 case 'S':
-                    System.Console.WriteLine(Students.Count);
-                    System.Console.WriteLine("\n\n\n");
                     Student.Submit_Save(Students, student);
+                    Students =  Student.load_data();
+                    MainProcessor();
+                    break;
+                case 'A':
+                    MainProcessor();
+                    break;
+                case 'Q':
+                    Environment.Exit(0);
+                    break;
+            }
+            editStudent(student);
+        }
+        
+        private static void addNew(Student student)
+        {
+            Console.Clear();
+            Console.WriteLine("\n\tUntil now, Student's records are as follows: \n");
+            writeHeader();
+            string header = "\t";
+            header += String.Format(format, $"{student.StudentID}", $"{student.FirstName}",
+                                            $"{student.LastName}", $"{student.Major}",
+                                            $"{student.Phone}", $"{student.GPA}", $"{student.DateOfBirth.ToShortDateString()}");
+            Console.WriteLine(header);
+            Console.WriteLine("\n\n");
+
+            Options.Clear();
+            Options.Add('1', "(Edit) First Name");
+            Options.Add('2', "(Edit) Last Name");
+            Options.Add('3', "(Edit) Major");
+            Options.Add('4', "(Edit) Phone Number");
+            Options.Add('5', "(Edit)GPA");
+            Options.Add('6', "(Edit) Birthdate");
+            Options.Add('S', "Submit and return to Main Menu");
+            Options.Add('A', "Abort");
+            Options.Add('Q', "Quit");
+            OptionsPrinter();
+
+            choice = IOption();
+            switch (choice)
+            {
+                case '1':
+                    Console.WriteLine("Enter the first name: ");
+                    student.FirstName = Convert.ToString(Console.ReadLine());
+                    break;
+                case '2':
+                    Console.WriteLine("Enter the last name: ");
+                    student.LastName = Convert.ToString(Console.ReadLine());
+                    break;
+                case '3':
+                    Console.WriteLine("Enter the major: ");
+                    student.Major = Convert.ToString(Console.ReadLine());
+                    break;
+                case '4':
+                    Console.WriteLine("Enter the Phone No.: ");
+                    student.Phone = Convert.ToString(Console.ReadLine());
+                    break;
+                case '5':
+                    Console.WriteLine("Enter the GPA: ");
+                    string gpa = Convert.ToString(Console.ReadLine());
+                    student.GPA = float.Parse(gpa);
+                    break;
+                case '6':
+                    Console.WriteLine("Enter the Birthdate: ");
+                    string date = Convert.ToString(Console.ReadLine());
+                    student.DateOfBirth = DateTime.Parse(date);
+                    break;
+                case 'S':
+                    Student.Save(Students, student);
+                    Students =  Student.load_data();
+                    MainProcessor();
                     break;
                 case 'A':
                     MainProcessor();

@@ -5,9 +5,17 @@ using System.Linq;
 using System.Threading;
 
 class Student
-{
+{   
     public Student()
     {
+        
+        string[] res = File.ReadAllLines("CurrID.txt");
+        IDGenerator = Convert.ToInt32(res[0]);
+        IDGenerator++;
+    }
+    public Student(int studentID, DateTime date)
+    {
+        StudentID = studentID;
     }
     private Student(int id, string firstName, string lastName, string major, string phone, float gpa)
         : this()
@@ -25,7 +33,7 @@ class Student
         DateOfBirth = date;
     }
 
-    private int IDGenerator;
+    public static int IDGenerator;
     public int StudentID { get; private set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -61,8 +69,7 @@ class Student
 
     public static void Submit_Save(List<Student> allOfStudents, Student editedStudent)
     {
-        List<string> editedStudentList_ = new List<string>();
-
+        List<string> editedStudentList = new List<string>();
         foreach (Student student_ in allOfStudents)
         {
             var student = new Student();
@@ -71,15 +78,44 @@ class Student
             else
                 student = student_;
 
-            editedStudentList_.Add(
-                String.Format("{0},{1},{2},{3}", student.StudentID, student.FirstName, student.LastName, student.Major) +
+            editedStudentList.Add(
+                String.Format("{0},{1},{2},{3},", student.StudentID, student.FirstName, student.LastName, student.Major) +
                 String.Format("{0},{1},{2}", student.Phone, student.GPA, student.DateOfBirth.ToShortDateString())
             );
         }
-        System.Console.WriteLine(editedStudentList_.Count);
-        System.Console.WriteLine(editedStudentList_);
-        Thread.Sleep(5000);
-        File.WriteAllLines("studentList.txt", editedStudentList_);
+        try
+        {
+            File.WriteAllLines("studentList.txt", editedStudentList);
+            Console.WriteLine("File Saved successfully!");
+        }
+        catch (System.Exception)
+        {
+            System.Console.WriteLine("Some error has occured");
+        }
+    }
+    
+    public static void Save(List<Student> allOfStudents, Student newStudent)
+    {
+        allOfStudents.Add(newStudent);
+        List<string> editedStudentList = new List<string>();
+        foreach (Student student in allOfStudents)
+        {
+            editedStudentList.Add(
+                String.Format("{0},{1},{2},{3},", student.StudentID, student.FirstName, student.LastName, student.Major) +
+                String.Format("{0},{1},{2}", student.Phone, student.GPA, student.DateOfBirth.ToShortDateString())
+            );
+        }
+        try
+        {
+            File.WriteAllLines("studentList.txt", editedStudentList);
+            File.WriteAllText("currID.txt", IDGenerator.ToString());
+
+            Console.WriteLine("File Saved successfully!");
+        }
+        catch (System.Exception)
+        {
+            System.Console.WriteLine("Some error has occured");
+        }
     }
 
     public static List<Student> Sort(List<Student> students, char sortBy)
