@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 class Student
 {
@@ -55,5 +56,27 @@ class Student
             students.Add(newStudent);
         }
         return students;
+    }
+
+    public static List<Student> Sort(List<Student> students, char sortBy)
+    {
+        List<Student> sortedStudents = new List<Student>();
+
+        switch (sortBy)
+        {
+            case 'F':
+                sortedStudents = students.OrderBy(s => s.FirstName).ToList();
+                break;
+
+            case 'L':
+                sortedStudents = students.OrderBy(s => s.LastName).ToList();
+                break;
+
+            case 'G':
+                sortedStudents = students.OrderBy(s => s.GPA).ToList();
+                break;
+        }
+        
+        return sortedStudents;
     }
 }
