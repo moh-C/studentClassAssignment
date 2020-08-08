@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 
 namespace myapp
@@ -10,8 +9,6 @@ namespace myapp
         {
             List<Student> Students = Student.load_data();
             List<Student> sortedStudents = new List<Student>();
-
-            string format = "{0,-10} {1,-20} {2, -20} {3, -10} {4, -15} {5, -10} {6, -10}";
 
             string welcome = "\n\tHello!, welcome to my program. Choose one of the following options: ";
             string options = "\n\n\t1. Display all students.\n";
@@ -49,40 +46,19 @@ namespace myapp
                     break;
 
                 case "5":
-                    Convert.ToString(Console.ReadLine());
-                    
+                    Console.WriteLine("Please enter ID of the student you want: ");
+                    string ID = Convert.ToString(Console.ReadLine());
+                    head = "\n\tHere is the student's Info\n\n";
+                    sortedStudents = Student.FindStudent(Students, ID, "ID");
+                    if(sortedStudents.Count == 0) {
+                        Console.WriteLine("No students were found!");
+                    }
                     break;
-
                 default:
                     break;
             }
-
-            studentListPrinter(sortedStudents, head);
             
-            void writeHeader()
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                string header = "\t";
-                header += String.Format(format, "ID", "First name", "Last name", "Major", "Phone No.", "GPA", "Date\n") + "\t";
-                header += String.Format(format, "--", "----------", "---------", "-----", "---------", "---", "----\n\n");
-                Console.WriteLine(header);
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-
-            void studentListPrinter(List<Student> students, string head)
-            {
-                Console.Clear();
-                Console.WriteLine(head);
-                writeHeader();
-                foreach (var student in students)
-                {
-                    string header = "\t";
-                    header += String.Format(format, $"{student.StudentID}", $"{student.FirstName}",
-                                                    $"{student.LastName}", $"{student.Major}",
-                                                    $"{student.Phone}", $"{student.GPA}", $"{student.DateOfBirth.ToShortDateString()}");
-                    Console.WriteLine(header);    
-                }
-            }
+            Printer.MainHandler(sortedStudents, head);
         }
     }
 }
