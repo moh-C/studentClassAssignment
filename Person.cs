@@ -2,16 +2,22 @@ namespace myapp
 {
     class Person
     {
-        private System.DateTime _birthdate;
-        public System.DateTime Birthdate
+        //private System.DateTime _birthdate;
+        public Person(System.DateTime dateTime)
         {
-            get{ return _birthdate; }
-            set
+            if(dateTime > new System.DateTime(1970, 1, 1))
+                Birthdate = dateTime;
+            else
+                Birthdate = new System.DateTime(1970,1,1);
+        }
+        public System.DateTime Birthdate { get; private set; }
+        public int Age
+        {
+            get
             {
-                if(value > new System.DateTime(1970, 1, 1))
-                    _birthdate = value;
-                else
-                    _birthdate = new System.DateTime(1970,1,1);
+                var timespan = System.DateTime.Today - Birthdate;
+                int age = timespan.Days / 365;
+                return age;
             }
         }
     }
