@@ -73,7 +73,7 @@ class Student
                 break;
 
             case 'G':
-                sortedStudents = students.OrderBy(s => s.GPA).ToList();
+                sortedStudents = students.OrderByDescending(s => s.GPA).ToList();
                 break;
         }
         
