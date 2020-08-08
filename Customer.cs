@@ -22,7 +22,7 @@ namespace myapp
         public void Move(Point newLocation)
         {
             if(newLocation == null)
-                throw new System.ArgumentNullException("Something");
+                throw new System.ArgumentNullException("newLocation is null");
             Move(newLocation.X, newLocation.Y);
         }
     }
