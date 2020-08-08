@@ -7,7 +7,8 @@ namespace myapp
     {
         static void Main(string[] args)
         {
-            
+            var person = new Person();
+            System.Console.WriteLine(person.GetName());
         }
     }
 }
