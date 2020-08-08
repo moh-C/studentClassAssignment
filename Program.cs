@@ -8,7 +8,11 @@ namespace myapp
         static void Main(string[] args)
         {
             var person = new Person();
-            System.Console.WriteLine(person.GetName());
+            person.Birthdate = new DateTime(1929, 12, 12);
+            System.Console.WriteLine(person.Birthdate);
+
+            person.Birthdate = new DateTime(1999, 12, 12);
+            System.Console.WriteLine(person.Birthdate);
         }
     }
 }

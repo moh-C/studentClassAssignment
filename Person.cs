@@ -1,16 +1,18 @@
-class Person
+namespace myapp
+{
+    class Person
     {
-        private string _name;
-        public Person()
+        private System.DateTime _birthdate;
+        public System.DateTime Birthdate
         {
-        }
-        public void SetName(string name)
-        {
-            this._name = name;
-        }
-
-        public string GetName()
-        {
-            return this._name;
+            get{ return _birthdate; }
+            set
+            {
+                if(value > new System.DateTime(1970, 1, 1))
+                    _birthdate = value;
+                else
+                    _birthdate = new System.DateTime(1970,1,1);
+            }
         }
     }
+}    
