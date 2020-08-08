@@ -2,24 +2,28 @@ using System.Collections.Generic;
 
 namespace myapp
 {
-    class Customer
+    class Point
     {
-        public int ID;
-        public string Name;
-        public List<Order> Orders;
-        public Customer()
+        public int X;
+        public int Y;
+        
+        public Point(int x, int y)
         {
-            Orders = new List<Order>();
+            this.X = x;
+            this.Y = y;
         }
-        public Customer(int id)
-            : this()
+
+        public void Move(int x, int y)
         {
-            this.ID = id;
+            this.X = x;
+            this.Y = y;
         }
-        public Customer(int id, string name)
-            : this(id)
+
+        public void Move(Point newLocation)
         {
-            this.Name = name;
+            if(newLocation == null)
+                throw new System.ArgumentNullException("Something");
+            Move(newLocation.X, newLocation.Y);
         }
     }
 }

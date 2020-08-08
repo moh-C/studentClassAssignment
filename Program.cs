@@ -7,11 +7,10 @@ namespace myapp
     {
         static void Main(string[] args)
         {
-            var customer = new Customer(id: 12, name: "Mammad");
-            var order = new Order();
-            customer.Orders.Add(order);
-            System.Console.WriteLine(customer.ID);
-            System.Console.WriteLine(customer.Name);
+            var point = new Point(40, 30);
+            System.Console.WriteLine("{0}, {1}", point.X, point.Y);
+            point.Move(new Point(20, 10));
+            System.Console.WriteLine("{0}, {1}", point.X, point.Y);
         }
     }
 }
