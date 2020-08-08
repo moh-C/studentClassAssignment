@@ -16,14 +16,6 @@ namespace myapp
         public Printer()
         {
             Students = Student.load_data();
-            
-            welcome = "\n\tChoose one of the following options: ";
-            System.Console.WriteLine(welcome);
-            
-            Options.Add('1', "Displaying");
-            Options.Add('2', "Searching");
-            Options.Add('3', "Editing");
-            Options.Add('Q', "Quit");
         }
         private static void OptionsPrinter()
         {
@@ -41,6 +33,7 @@ namespace myapp
         private static void studentListPrinter(List<Student> students, string head)
         {
             Console.Clear();
+            Options.Clear();
             
             Console.WriteLine(head);
             writeHeader();
@@ -51,6 +44,20 @@ namespace myapp
                                                 $"{student.LastName}", $"{student.Major}",
                                                 $"{student.Phone}", $"{student.GPA}", $"{student.DateOfBirth.ToShortDateString()}");
                 Console.WriteLine(header);    
+            }
+            Console.WriteLine("\n\n");
+            Options.Add('Q', "Quit");
+            Options.Add('M', "Main Page");
+            OptionsPrinter();
+            choice = IOption();
+            switch(choice)
+            {
+                case 'Q':
+                    Environment.Exit(0);
+                    break;
+                case 'M':
+                    MainProcessor();
+                    break;
             }
         }
 
@@ -66,6 +73,7 @@ namespace myapp
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\n\tNo records found!");
                 Console.ForegroundColor = ConsoleColor.White;
+                MainProcessor();
             }
         }
 
@@ -81,7 +89,7 @@ namespace myapp
                 return IOption();
             }
 
-            char _choice = Convert.ToChar(Unprocessed);
+            char _choice = Convert.ToChar(Unprocessed.ToUpper());
             
             if(Options.ContainsKey(_choice))
                 return _choice;
@@ -96,6 +104,14 @@ namespace myapp
 
         public static void MainProcessor()
         {
+            Console.Clear();
+            Options.Clear();
+            
+            Options.Add('1', "Displaying");
+            Options.Add('2', "Searching");
+            Options.Add('3', "Editing");
+            Options.Add('Q', "Quit");
+
             Console.WriteLine("Please enter your choice");
             OptionsPrinter();
             choice = IOption();
@@ -111,6 +127,7 @@ namespace myapp
                     break;
 
                 case '3':
+                    edit();
                     break;
             }
         }
@@ -125,38 +142,43 @@ namespace myapp
             Options.Add('2', "Display all students sorted by first name");
             Options.Add('3', "Display all students sorted by last name");
             Options.Add('4', "Display all students sorted by GPA");
-            Options.Add('P', "Previous Menu");
+            Options.Add('M', "Main Menu");
             Options.Add('Q', "Quit");
             OptionsPrinter();
 
             choice = IOption();
-            string query = null, head = "\n\tHere is the students' Info\n\n";
+            string head = "\n\tHere is the students' Info\n\n";
             switch (choice)
             {
                 case '1':
                     head = "\n\tHere is the students' list: \n\n";
                     sortedStudents = Students;
-                break;
+                    break;
                 case '2':
-
-                break;
+                    sortedStudents = Student.Sort(Students, 'F');
+                    head = "\n\tHere is the students' list sorted by their first names: \n\n";
+                    break;
                 case '3':
-
-                break;
+                    sortedStudents = Student.Sort(Students, 'L');
+                    head = "\n\tHere is the students' list sorted by their last names: \n\n";
+                    break;
                 case '4':
-
-                break;
-                case 'P':
-
-                break;
+                    head = "\n\tHere is the students' list sorted by their GPA: \n\n";
+                    sortedStudents = Student.Sort(Students, 'G');
+                    break;
+                case 'M':
+                    MainProcessor();
+                    break;
                 case 'Q':
-
-                break;
+                    Environment.Exit(0);
+                    break;
             }
+            MainStudentHandler(sortedStudents, head);
         }
 
         private static void search()
         {
+            string query = null, head = "\n\tHere is the students' Info\n\n";
             Console.Clear();
             Console.WriteLine("\n\n");
 
@@ -165,74 +187,85 @@ namespace myapp
             Options.Add('2', "Search for students by their major");
             Options.Add('3', "Search for students whose GPA is higher than your given GPA");
             Options.Add('4', "Search for students whose GPA is lowe than your given GPA");
-            Options.Add('P', "Previous Menu");
+            Options.Add('M', "Main Menu");
             Options.Add('Q', "Quit");
             OptionsPrinter();
 
             choice = IOption();
-        }
-
-        public static void MainProcessor2()
-        {
-            List<Student> Students = Student.load_data();
-            string choice = Convert.ToString(Console.ReadLine());
-            
-            string query = null, head = "\n\tHere is the students' Info\n\n";
-
-            switch (choice)
+            switch(choice)
             {
-                case "1":
-                    head = "\n\tHere is the students' list: \n\n";
-                    sortedStudents = Students;
-                    break;
-
-                case "2":
-                    sortedStudents = Student.Sort(Students, 'F');
-                    head = "\n\tHere is the students' list sorted by their first names: \n\n";
-                    break;
-
-                case "3":
-                    sortedStudents = Student.Sort(Students, 'L');
-                    head = "\n\tHere is the students' list sorted by their last names: \n\n";
-                    break;
-
-                case "4":
-                    head = "\n\tHere is the students' list sorted by their GPA: \n\n";
-                    sortedStudents = Student.Sort(Students, 'G');
-                    break;
-
-                case "5":
+                case '1':
                     Console.WriteLine("Please enter ID of the student you want: ");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "ID");
                     break;
-
-                case "6":
+                case '2':
                     Console.WriteLine("Please enter the Major you are interested in: ");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "Major");
                     break;
-                
-                case "7":
+                case '3':
                     Console.WriteLine("Please enter the desired GPA");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "GPA_H");
                     break;
-                
-                case "8":
+                case '4':
                     Console.WriteLine("Please enter the desired GPA");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "GPA_L");
                     break;
-                
-                case "9":
-                    Console.Clear();
+                case 'M':
+                    MainProcessor();
                     break;
-
-                default:
+                case 'Q':
+                    Environment.Exit(0);
                     break;
             }
-            Printer.MainStudentHandler(sortedStudents, head);
+            MainStudentHandler(sortedStudents, head);
+        }
+
+        private static void edit()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n");
+            
+            Options.Clear();
+            Options.Add('1', "Display all students");
+            Options.Add('2', "Display all students sorted by first name");
+            Options.Add('3', "Display all students sorted by last name");
+            Options.Add('4', "Display all students sorted by GPA");
+            Options.Add('M', "Main Menu");
+            Options.Add('Q', "Quit");
+            OptionsPrinter();
+
+            choice = IOption();
+            string head = "\n\tHere is the students' Info\n\n";
+            switch (choice)
+            {
+                case '1':
+                    head = "\n\tHere is the students' list: \n\n";
+                    sortedStudents = Students;
+                    break;
+                case '2':
+                    sortedStudents = Student.Sort(Students, 'F');
+                    head = "\n\tHere is the students' list sorted by their first names: \n\n";
+                    break;
+                case '3':
+                    sortedStudents = Student.Sort(Students, 'L');
+                    head = "\n\tHere is the students' list sorted by their last names: \n\n";
+                    break;
+                case '4':
+                    head = "\n\tHere is the students' list sorted by their GPA: \n\n";
+                    sortedStudents = Student.Sort(Students, 'G');
+                    break;
+                case 'M':
+                    MainProcessor();
+                    break;
+                case 'Q':
+                    Environment.Exit(0);
+                    break;
+            }
+            MainStudentHandler(sortedStudents, head);
         }
     }
 }
