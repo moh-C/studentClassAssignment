@@ -6,7 +6,6 @@ namespace myapp
 {
     class Processor
     {
-        private static string welcome;
         private static string format = "{0,-10} {1,-20} {2, -20} {3, -10} {4, -15} {5, -10} {6, -10}";
         private static char choice;
         private static List<Student> Students = new List<Student>();
@@ -106,6 +105,7 @@ namespace myapp
         {
             Console.Clear();
             Options.Clear();
+            Console.WriteLine("\n\n");
             
             Options.Add('1', "Displaying");
             Options.Add('2', "Searching");
@@ -187,7 +187,7 @@ namespace myapp
             Console.WriteLine("\n\n");
 
             Options.Clear();
-            Options.Add('1', "Search for a student by their first name");
+            Options.Add('1', "Search for a student by ID");
             Options.Add('2', "Search for students by their major");
             Options.Add('3', "Search for students whose GPA is higher than your given GPA");
             Options.Add('4', "Search for students whose GPA is lowe than your given GPA");
@@ -199,22 +199,22 @@ namespace myapp
             switch(choice)
             {
                 case '1':
-                    Console.Write("Please enter ID of the student you want: ");
+                    Console.Write("\tPlease enter ID of the student you want: ");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "ID");
                     break;
                 case '2':
-                    Console.Write("Please enter the Major you are interested in: ");
+                    Console.Write("\tPlease enter the Major you are interested in: ");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "Major");
                     break;
                 case '3':
-                    Console.Write("Please enter the desired GPA: ");
+                    Console.Write("\tPlease enter the desired GPA: ");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "GPA_H");
                     break;
                 case '4':
-                    Console.Write("Please enter the desired GPA: ");
+                    Console.Write("\tPlease enter the desired GPA: ");
                     query = Convert.ToString(Console.ReadLine());
                     sortedStudents = Student.FindStudent(Students, query, "GPA_L");
                     break;
@@ -260,7 +260,7 @@ namespace myapp
             else if(foundStudents.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                System.Console.WriteLine("\n\tSorry student with that ID does not exist!");
+                System.Console.WriteLine("\n\tSorry, student with that ID does not exist!");
                 Console.ForegroundColor = ConsoleColor.White;
                 Options.Add('R', "Retry");
                 Options.Add('Q', "Quit");
@@ -281,7 +281,7 @@ namespace myapp
         private static void editStudent(Student student)
         {
             Console.Clear();
-            Console.WriteLine("\n\tUntil now, Student's records are as follows: \n");
+            Console.WriteLine("\n\tUntil now, new student's records are as follows: \n");
             writeHeader();
             string header = "\t";
             header += String.Format(format, $"{student.StudentID}", $"{student.FirstName}",
@@ -306,28 +306,28 @@ namespace myapp
             switch (choice)
             {
                 case '1':
-                    Console.WriteLine("Enter the first name: ");
+                    Console.Write("\tEnter the first name: ");
                     student.FirstName = Convert.ToString(Console.ReadLine());
                     break;
                 case '2':
-                    Console.WriteLine("Enter the last name: ");
+                    Console.Write("\tEnter the last name: ");
                     student.LastName = Convert.ToString(Console.ReadLine());
                     break;
                 case '3':
-                    Console.WriteLine("Enter the major: ");
+                    Console.Write("\tEnter the major: ");
                     student.Major = Convert.ToString(Console.ReadLine());
                     break;
                 case '4':
-                    Console.WriteLine("Enter the Phone No.: ");
+                    Console.Write("\tEnter the Phone No.: ");
                     student.Phone = Convert.ToString(Console.ReadLine());
                     break;
                 case '5':
-                    Console.WriteLine("Enter the GPA: ");
+                    Console.Write("\tEnter the GPA: ");
                     string gpa = Convert.ToString(Console.ReadLine());
                     student.GPA = float.Parse(gpa);
                     break;
                 case '6':
-                    Console.WriteLine("Enter the Birthdate: ");
+                    Console.Write("\tEnter the Birthdate: ");
                     string date = Convert.ToString(Console.ReadLine());
                     student.DateOfBirth = DateTime.Parse(date);
                     break;
@@ -363,7 +363,7 @@ namespace myapp
             Options.Add('2', "(Edit) Last Name");
             Options.Add('3', "(Edit) Major");
             Options.Add('4', "(Edit) Phone Number");
-            Options.Add('5', "(Edit)GPA");
+            Options.Add('5', "(Edit) GPA");
             Options.Add('6', "(Edit) Birthdate");
             Options.Add('S', "Submit and return to Main Menu");
             Options.Add('A', "Abort");
@@ -374,34 +374,58 @@ namespace myapp
             switch (choice)
             {
                 case '1':
-                    Console.WriteLine("Enter the first name: ");
+                    Console.Write("\tEnter the first name: ");
                     student.FirstName = Convert.ToString(Console.ReadLine());
                     break;
                 case '2':
-                    Console.WriteLine("Enter the last name: ");
+                    Console.Write("\tEnter the last name: ");
                     student.LastName = Convert.ToString(Console.ReadLine());
                     break;
                 case '3':
-                    Console.WriteLine("Enter the major: ");
+                    Console.Write("\tEnter the major: ");
                     student.Major = Convert.ToString(Console.ReadLine());
                     break;
                 case '4':
-                    Console.WriteLine("Enter the Phone No.: ");
+                    Console.Write("\tEnter the Phone No.: ");
                     student.Phone = Convert.ToString(Console.ReadLine());
                     break;
                 case '5':
-                    Console.WriteLine("Enter the GPA: ");
+                    Console.Write("\tEnter the GPA: ");
                     string gpa = Convert.ToString(Console.ReadLine());
-                    student.GPA = float.Parse(gpa);
+                    try
+                    {
+                        student.GPA = float.Parse(gpa);
+                    }
+                    catch (System.Exception)
+                    {
+                        
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("\n\n\tInvalid input!");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        System.Threading.Thread.Sleep(3000);
+                        addNew(student);
+                    }
                     break;
                 case '6':
-                    Console.WriteLine("Enter the Birthdate: ");
+                    Console.Write("\tEnter the Birthdate: ");
                     string date = Convert.ToString(Console.ReadLine());
-                    student.DateOfBirth = DateTime.Parse(date);
+                    try
+                    {
+                        student.DateOfBirth = DateTime.Parse(date);
+                    }
+                    catch (System.Exception)
+                    {
+                        
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("\n\n\tInvalid input!");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        System.Threading.Thread.Sleep(3000);
+                        addNew(student);
+                    }
                     break;
                 case 'S':
                     Student.Save(Students, student);
-                    Students =  Student.load_data();
+                    Students = Student.load_data();
                     MainProcessor();
                     break;
                 case 'A':

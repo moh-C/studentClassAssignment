@@ -16,6 +16,7 @@ class Student
     public Student(int studentID, DateTime date)
     {
         StudentID = studentID;
+        DateOfBirth = date;
     }
     private Student(int id, string firstName, string lastName, string major, string phone, float gpa)
         : this()
